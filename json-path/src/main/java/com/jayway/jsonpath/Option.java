@@ -121,7 +121,7 @@ public enum Option {
      * when using this mode, the result will be [{"price":30,"name":"book1"}]. That is what we expected.
      *
      *
-     * Notice: When using this mode, the path of the result will be incorrect. Besides, SET operation will don't work.
+     * Notice: When using this mode, the path of the result will be incorrect. Besides, SET operation will don't work. Be careful to it!
      */
 
     FILTER_SLICE_AS_ARRAY
