@@ -14,13 +14,12 @@
  */
 package com.jayway.jsonpath.internal.path;
 
-import com.jayway.jsonpath.Configuration;
-import com.jayway.jsonpath.InvalidPathException;
-import com.jayway.jsonpath.Predicate;
+import com.jayway.jsonpath.*;
 import com.jayway.jsonpath.internal.PathRef;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
@@ -41,6 +40,18 @@ public class PredicatePathToken extends PathToken {
         this.predicates = predicates;
     }
 
+
+    /**
+     * Add a judgement in evaluate, check whether using FILTER_SLICE_AS_ARRAY mode.
+     * <p>
+     *     Details about FILTER_SLICE_AS_ARRAY in com/jayway/jsonpath/Option.java
+     * </p>
+     *
+     * @param currentPath
+     * @param ref
+     * @param model
+     * @param ctx
+     */
     @Override
     public void evaluate(String currentPath, PathRef ref, Object model, EvaluationContextImpl ctx) {
         if (ctx.jsonProvider().isMap(model)) {
@@ -53,14 +64,27 @@ public class PredicatePathToken extends PathToken {
                 }
             }
         } else if (ctx.jsonProvider().isArray(model)){
-            int idx = 0;
-            Iterable<?> objects = ctx.jsonProvider().toIterable(model);
+            if(!ctx.configuration().containsOption(Option.FILTER_SLICE_AS_ARRAY)) {
+                int idx = 0;
+                Iterable<?> objects = ctx.jsonProvider().toIterable(model);
 
-            for (Object idxModel : objects) {
-                if (accept(idxModel, ctx.rootDocument(),  ctx.configuration(), ctx)) {
-                    handleArrayIndex(idx, currentPath, model, ctx);
+                for (Object idxModel : objects) {
+                    if (accept(idxModel, ctx.rootDocument(), ctx.configuration(), ctx)) {
+                        handleArrayIndex(idx, currentPath, model, ctx);
+                    }
+                    idx++;
                 }
-                idx++;
+            }
+            else{
+                //using FILTER_SLICE_AS_ARRAY mode, details at com/jayway/jsonpath/Option.FILTER_SLICE_AS_ARRAY
+                Iterable<?> objects = ctx.jsonProvider().toIterable(model);
+                Object filteredModel = ctx.jsonProvider().createArray(); // create an array to store the element after filtered
+                for(Object idxModel : objects){
+                    if(accept(idxModel, ctx.rootDocument(), ctx.configuration(), ctx)){
+                        ((List)filteredModel).add(idxModel);
+                    }
+                }
+                handleWholeArray(currentPath, filteredModel, ctx); // handle the whole array
             }
         } else {
             if (isUpstreamDefinite()) {
