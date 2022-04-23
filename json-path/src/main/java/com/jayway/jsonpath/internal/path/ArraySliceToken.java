@@ -54,10 +54,10 @@ public class ArraySliceToken extends ArrayPathToken {
      *     Details about FILTER_SLICE_AS_ARRAY in com/jayway/jsonpath/Option.java
      * </p>
      *
-     * @param currentPath
-     * @param parent
-     * @param model
-     * @param ctx
+     * @param currentPath current json path
+     * @param parent path set operation reference
+     * @param model current json model
+     * @param ctx evaluation context in the evaluation
      */
     private void sliceFrom(String currentPath, PathRef parent, Object model, EvaluationContextImpl ctx) {
         int length = ctx.jsonProvider().length(model);
@@ -90,10 +90,10 @@ public class ArraySliceToken extends ArrayPathToken {
      *     Details about FILTER_SLICE_AS_ARRAY in com/jayway/jsonpath/Option.java
      * </p>
      *
-     * @param currentPath
-     * @param parent
-     * @param model
-     * @param ctx
+     * @param currentPath current json path
+     * @param parent path set operation reference
+     * @param model current json model
+     * @param ctx evaluation context in the evaluation
      */
     private void sliceBetween(String currentPath, PathRef parent, Object model, EvaluationContextImpl ctx) {
         int length = ctx.jsonProvider().length(model);
@@ -125,10 +125,10 @@ public class ArraySliceToken extends ArrayPathToken {
      *     Details about FILTER_SLICE_AS_ARRAY in com/jayway/jsonpath/Option.java
      * </p>
      *
-     * @param currentPath
-     * @param parent
-     * @param model
-     * @param ctx
+     * @param currentPath current json path
+     * @param parent path set operation reference
+     * @param model current json model
+     * @param ctx evaluation context in the evaluation
      */
     private void sliceTo(String currentPath, PathRef parent, Object model, EvaluationContextImpl ctx) {
         int length = ctx.jsonProvider().length(model);
@@ -162,12 +162,12 @@ public class ArraySliceToken extends ArrayPathToken {
      *      Details about FILTER_SLICE_AS_ARRAY in com/jayway/jsonpath/Option.java
      * </p>
      *
-     * @param currentPath
-     * @param parent
-     * @param model
-     * @param ctx
-     * @param from
-     * @param to
+     * @param currentPath current json path
+     * @param parent path set operation reference
+     * @param model current json model
+     * @param ctx evaluation context in the evaluation
+     * @param from index from
+     * @param to index to
      */
     private void sliceAsArray(String currentPath, PathRef parent, Object model, EvaluationContextImpl ctx, int from, int to) {
         Object array = ctx.jsonProvider().createArray(); // create an array to store the element after filtered

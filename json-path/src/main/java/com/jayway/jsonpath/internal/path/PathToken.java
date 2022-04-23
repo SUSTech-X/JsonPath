@@ -153,9 +153,9 @@ public abstract class PathToken {
      *     the method is used then using FILTER_SLICE_AS_ARRAY.
      *     Details about FILTER_SLICE_AS_ARRAY in com/jayway/jsonpath/Option.java
      *</p>
-     * @param currentPath
+     * @param currentPath current json path
      * @param model the array after filtered or slice
-     * @param ctx
+     * @param ctx evaluation context in the evaluation
      */
     protected void handleWholeArray(String currentPath, Object model, EvaluationContextImpl ctx){
         // using FILTER_SLICE_AS_ARRAY mode, details at com/jayway/jsonpath/Option.FILTER_SLICE_AS_ARRAY

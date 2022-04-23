@@ -47,10 +47,10 @@ public class PredicatePathToken extends PathToken {
      *     Details about FILTER_SLICE_AS_ARRAY in com/jayway/jsonpath/Option.java
      * </p>
      *
-     * @param currentPath
-     * @param ref
-     * @param model
-     * @param ctx
+     * @param currentPath the current json path
+     * @param ref path set operation reference
+     * @param model current json model
+     * @param ctx evaluation context in the evaluation
      */
     @Override
     public void evaluate(String currentPath, PathRef ref, Object model, EvaluationContextImpl ctx) {
