@@ -14,10 +14,16 @@
  */
 package com.jayway.jsonpath.internal.path;
 
+import com.jayway.jsonpath.Option;
 import com.jayway.jsonpath.internal.PathRef;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
+/**
+ * Add a method sliceAsArray. This is used in FILTER_SLICE_AS_ARRAY mode.
+ */
 public class ArraySliceToken extends ArrayPathToken {
 
     private static final Logger logger = LoggerFactory.getLogger(ArraySliceToken.class);
@@ -45,6 +51,17 @@ public class ArraySliceToken extends ArrayPathToken {
         }
     }
 
+    /**
+     * Add a judgement, check whether using FILTER_SLICE_AS_ARRAY mode.
+     * <p>
+     *     Details about FILTER_SLICE_AS_ARRAY in com/jayway/jsonpath/Option.java
+     * </p>
+     *
+     * @param currentPath current json path
+     * @param parent path set operation reference
+     * @param model current json model
+     * @param ctx evaluation context in the evaluation
+     */
     private void sliceFrom(String currentPath, PathRef parent, Object model, EvaluationContextImpl ctx) {
         int length = ctx.jsonProvider().length(model);
         int from = operation.from();
@@ -59,11 +76,28 @@ public class ArraySliceToken extends ArrayPathToken {
         if (length == 0 || from >= length) {
             return;
         }
-        for (int i = from; i < length; i++) {
-            handleArrayIndex(i, currentPath, model, ctx);
+        if(ctx.configuration().containsOption(Option.FILTER_SLICE_AS_ARRAY)){
+            //using FILTER_SLICE_AS_ARRAY mode, details at com/jayway/jsonpath/Option.FILTER_SLICE_AS_ARRAY
+            sliceAsArray(currentPath, parent, model, ctx, from, length);
+        }
+        else{
+            for (int i = from; i < length; i++) {
+                handleArrayIndex(i, currentPath, model, ctx);
+            }
         }
     }
 
+    /**
+     * Add a judgement, check whether using FILTER_SLICE_AS_ARRAY mode.
+     * <p>
+     *     Details about FILTER_SLICE_AS_ARRAY in com/jayway/jsonpath/Option.java
+     * </p>
+     *
+     * @param currentPath current json path
+     * @param parent path set operation reference
+     * @param model current json model
+     * @param ctx evaluation context in the evaluation
+     */
     private void sliceBetween(String currentPath, PathRef parent, Object model, EvaluationContextImpl ctx) {
         int length = ctx.jsonProvider().length(model);
         int from = operation.from();
@@ -77,11 +111,28 @@ public class ArraySliceToken extends ArrayPathToken {
 
         logger.debug("Slice between indexes on array with length: {}. From index: {} to: {}. Input: {}", length, from, to, toString());
 
-        for (int i = from; i < to; i++) {
-            handleArrayIndex(i, currentPath, model, ctx);
+        if(ctx.configuration().containsOption(Option.FILTER_SLICE_AS_ARRAY)){
+            //using FILTER_SLICE_AS_ARRAY mode, details at com/jayway/jsonpath/Option.FILTER_SLICE_AS_ARRAY
+            sliceAsArray(currentPath, parent, model, ctx, from, to);
+        }
+        else {
+            for (int i = from; i < to; i++) {
+                handleArrayIndex(i, currentPath, model, ctx);
+            }
         }
     }
 
+    /**
+     * Add a judgement, check whether using FILTER_SLICE_AS_ARRAY mode.
+     * <p>
+     *     Details about FILTER_SLICE_AS_ARRAY in com/jayway/jsonpath/Option.java
+     * </p>
+     *
+     * @param currentPath current json path
+     * @param parent path set operation reference
+     * @param model current json model
+     * @param ctx evaluation context in the evaluation
+     */
     private void sliceTo(String currentPath, PathRef parent, Object model, EvaluationContextImpl ctx) {
         int length = ctx.jsonProvider().length(model);
         if (length == 0) {
@@ -96,9 +147,39 @@ public class ArraySliceToken extends ArrayPathToken {
 
         logger.debug("Slice to index on array with length: {}. From index: 0 to: {}. Input: {}", length, to, toString());
 
-        for (int i = 0; i < to; i++) {
-            handleArrayIndex(i, currentPath, model, ctx);
+        if(ctx.configuration().containsOption(Option.FILTER_SLICE_AS_ARRAY)){
+            //using FILTER_SLICE_AS_ARRAY mode, details at com/jayway/jsonpath/Option.FILTER_SLICE_AS_ARRAY
+            sliceAsArray(currentPath, parent, model, ctx, 0, to);
         }
+        else {
+            for (int i = 0; i < to; i++) {
+                handleArrayIndex(i, currentPath, model, ctx);
+            }
+        }
+    }
+
+    /**
+     * Treat the array after slice as a whole json model.
+     * <p>
+     *      the method is used then using FILTER_SLICE_AS_ARRAY.
+     *      Details about FILTER_SLICE_AS_ARRAY in com/jayway/jsonpath/Option.java
+     * </p>
+     *
+     * @param currentPath current json path
+     * @param parent path set operation reference
+     * @param model current json model
+     * @param ctx evaluation context in the evaluation
+     * @param from index from
+     * @param to index to
+     */
+    private void sliceAsArray(String currentPath, PathRef parent, Object model, EvaluationContextImpl ctx, int from, int to) {
+        Object array = ctx.jsonProvider().createArray(); // create an array to store the element after filtered
+        for(int i = from; i < to; i++){
+            Object currentObject = ctx.jsonProvider().getArrayIndex(model, i);
+            ((List)array).add(currentObject);
+        }
+
+        handleWholeArray(currentPath, array, ctx); // handle the whole array
     }
 
     @Override
