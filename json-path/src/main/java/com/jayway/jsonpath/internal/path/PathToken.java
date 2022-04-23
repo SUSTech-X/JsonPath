@@ -23,6 +23,9 @@ import com.jayway.jsonpath.spi.json.JsonProvider;
 
 import java.util.List;
 
+/**
+ * Add a method sliceAsArray. This is used in FILTER_SLICE_AS_ARRAY mode.
+ */
 public abstract class PathToken {
 
     private PathToken prev;

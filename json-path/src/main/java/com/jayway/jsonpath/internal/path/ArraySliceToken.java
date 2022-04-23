@@ -21,6 +21,9 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
+/**
+ * Add a method sliceAsArray. This is used in FILTER_SLICE_AS_ARRAY mode.
+ */
 public class ArraySliceToken extends ArrayPathToken {
 
     private static final Logger logger = LoggerFactory.getLogger(ArraySliceToken.class);
