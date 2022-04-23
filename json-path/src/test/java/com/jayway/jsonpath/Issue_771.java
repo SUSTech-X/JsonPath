@@ -9,12 +9,15 @@ import org.junit.Test;
 public class Issue_771 {
     @Test
     public void testReverseExpression1(){
+        //Put the @ at the equation's right
         String in="{\"authors\":[{\"first\":[1,2],\"last\":2}]}";
         String out =JsonPath.parse(in).read("$.authors[?([1,2]==@.first)]").toString();
+        //Judge whether the result is right
         Assert.assertEquals(out,"[{\"first\":[1,2],\"last\":2}]");
     }
     @Test
     public void testReverseExpression2(){
+        //Using a bigger filter and put the @ at the equation's right
         String in="{\n" +
                 "\"store\": {\n" +
                 "\"book\": [\n" +
@@ -53,6 +56,7 @@ public class Issue_771 {
                 "\"expensive\": 10\n" +
                 "}";
         String out =JsonPath.parse(in).read("$.store.book[?(['Rees','Waugh'] == @.authors[*].lastName)]").toString();
+        //Judge whether the result is right
         Assert.assertEquals(out,"[{\"category\":\"reference\",\"authors\":[{\"firstName\":\"Nigel\",\"lastName\":\"Rees\"},{\"firstName\":\"Evelyn\",\"lastName\":\"Waugh\"}],\"title\":\"Sayings of the Century\",\"price\":8.95}]\n");
     }
 }
