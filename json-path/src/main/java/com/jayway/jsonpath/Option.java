@@ -15,6 +15,7 @@
 package com.jayway.jsonpath;
 
 public enum Option {
+    //CS304 Issue link: https://github.com/json-path/JsonPath/issues/806
 
     /**
      * returns <code>null</code> for missing leaf.
@@ -122,6 +123,7 @@ public enum Option {
      *
      * Notice: When using this mode, the path of the result will be incorrect. Besides, SET operation will don't work.
      */
+
     FILTER_SLICE_AS_ARRAY
 
 }
