@@ -298,6 +298,7 @@ public class JsonPath {
      * @param <T>           expected return type
      * @return the updated jsonObject or the path list to updated object if option AS_PATH_LIST is set.
      */
+    //CS304 Issue link: https://github.com/json-path/JsonPath/issues/784
     public <T> T add(Object jsonObject, Object value, Configuration configuration) {
         notNull(jsonObject, "json can not be null");
         notNull(configuration, "configuration can not be null");
@@ -326,6 +327,7 @@ public class JsonPath {
      * @param <T>           expected return type
      * @return the updated jsonObject or the path list to updated objects if option AS_PATH_LIST is set.
      */
+    //CS304 Issue link: https://github.com/json-path/JsonPath/issues/784
     public <T> T put(Object jsonObject, String key, Object value, Configuration configuration) {
         notNull(jsonObject, "json can not be null");
         notNull(key, "key can not be null or empty");

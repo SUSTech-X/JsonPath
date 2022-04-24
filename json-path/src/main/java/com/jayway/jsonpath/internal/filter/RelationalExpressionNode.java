@@ -17,25 +17,26 @@ public class RelationalExpressionNode extends ExpressionNode {
 
     /**
      * To found a node which contains an expression.
-     * @param left the left node
+     *
+     * @param left               the left node
      * @param relationalOperator the relationalOperator, for example "=="
-     * @param right the right node
+     * @param right              the right node
      */
     //CS304 Issue link: https://github.com/json-path/JsonPath/issues/771
     public RelationalExpressionNode(ValueNode left, RelationalOperator relationalOperator, ValueNode right) {
-        try{
+        try {
             // if need change left and right, change them
-            if(needSwap(right)){
-                ValueNode tmp=left;
-                left=right;
-                right=tmp;
-                relationalOperator=reverseRelationOperator(relationalOperator);
+            if (right.toString().charAt(0) == '@') { //NOPMD - suppressed AvoidLiteralsInIfCondition
+                final ValueNode tmp = left;
+                left = right; //NOPMD - suppressed AvoidReassigningParameters
+                right = tmp; //NOPMD - suppressed AvoidReassigningParameters
+                relationalOperator = reverse(relationalOperator); //NOPMD - suppressed AvoidReassigningParameters
             }
-        }catch (Exception e){
+        } catch (Exception e) { //NOPMD - suppressed AvoidCatchingGenericException
             // if can't change, restore them
-            ValueNode tmp=left;
-            left=right;
-            right=tmp;
+            final ValueNode tmp = left;
+            left = right;
+            right = tmp;
         }
         this.left = left;
         this.relationalOperator = relationalOperator;
@@ -46,7 +47,7 @@ public class RelationalExpressionNode extends ExpressionNode {
 
     @Override
     public String toString() {
-        if(relationalOperator == RelationalOperator.EXISTS){
+        if (relationalOperator == RelationalOperator.EXISTS) {
             return left.toString();
         } else {
             return left.toString() + " " + relationalOperator.toString() + " " + right.toString();
@@ -58,49 +59,42 @@ public class RelationalExpressionNode extends ExpressionNode {
         ValueNode l = left;
         ValueNode r = right;
 
-        if(left.isPathNode()){
+        if (left.isPathNode()) {
             l = left.asPathNode().evaluate(ctx);
         }
-        if(right.isPathNode()){
+        if (right.isPathNode()) {
             r = right.asPathNode().evaluate(ctx);
         }
         Evaluator evaluator = EvaluatorFactory.createEvaluator(relationalOperator);
-        if(evaluator != null){
+        if (evaluator != null) {
             return evaluator.evaluate(l, r, ctx);
         }
         return false;
     }
 
-    /**
-     *
-     * @param right the right node
-     * @return whether the right node need to be swapped to left
-     */
-    //CS304 Issue link: https://github.com/json-path/JsonPath/issues/771
-    boolean needSwap(ValueNode right){
-        return right.toString().charAt(0)=='@';
-    }
+
     /**
      * To inverse an operator, if can't, throw an exception
+     *
      * @param operator the operator need to be inversed
      * @return the inverse operator
      * @throws Exception the operator can't be inversed
      */
-    //CS304 Issue link: https://github.com/json-path/JsonPath/issues/771
-    RelationalOperator reverseRelationOperator(RelationalOperator operator) throws Exception{
-        switch (operator){
+    //CS304 Issue link: https://github.com/json-path/JsonPath/issues/771 //NOPMD - suppressed SignatureDeclareThrowsException
+    private RelationalOperator reverse(final RelationalOperator operator)throws Exception { //NOPMD - suppressed SignatureDeclareThrowsException
+        switch (operator) {
             case EQ:
-                return RelationalOperator.EQ;
+                return RelationalOperator.EQ; //NOPMD - suppressed OnlyOneReturn
             case GTE:
-                return RelationalOperator.LTE;
+                return RelationalOperator.LTE; //NOPMD - suppressed OnlyOneReturn
             case LTE:
-                return RelationalOperator.GTE;
+                return RelationalOperator.GTE; //NOPMD - suppressed OnlyOneReturn
             case GT:
-                return RelationalOperator.LT;
+                return RelationalOperator.LT; //NOPMD - suppressed OnlyOneReturn
             case NE:
                 return RelationalOperator.NE;
-            default:
-                throw new Exception("Type can't change!");
+            default: //NOPMD - suppressed AvoidThrowingRawExceptionTypes
+                throw new Exception("Type can't change!"); //NOPMD - suppressed AvoidThrowingRawExceptionTypes
         }
     }
 }
