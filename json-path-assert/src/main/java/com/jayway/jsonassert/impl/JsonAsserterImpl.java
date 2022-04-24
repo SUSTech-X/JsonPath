@@ -89,6 +89,14 @@ public class JsonAsserterImpl implements JsonAsserter {
         return this;
     }
 
+    /**
+     * Checks that a path is not defined within a document. If the document contains the
+     * given path, an AssertionError is thrown
+     *
+     * @param path the path to make sure not exists
+     * @param message the explanation message
+     * @return this
+     */
     @Override
     public JsonAsserter assertNotDefined(final String path, final String message) {
         try {
