@@ -54,6 +54,7 @@ public class PredicatePathToken extends PathToken {
      */
     @Override
     public void evaluate(String currentPath, PathRef ref, Object model, EvaluationContextImpl ctx) {
+
         if (ctx.jsonProvider().isMap(model)) {
             if (accept(model, ctx.rootDocument(), ctx.configuration(), ctx)) {
                 PathRef op = ctx.forUpdate() ? ref : PathRef.NO_OP;
@@ -64,6 +65,7 @@ public class PredicatePathToken extends PathToken {
                 }
             }
         } else if (ctx.jsonProvider().isArray(model)) {
+            //CS304 Issue link: https://github.com/json-path/JsonPath/issues/806
             if (!ctx.configuration().containsOption(Option.FILTER_SLICE_AS_ARRAY)) {
                 int idx = 0;
                 Iterable<?> objects = ctx.jsonProvider().toIterable(model);
@@ -75,7 +77,6 @@ public class PredicatePathToken extends PathToken {
                     idx++;
                 }
             } else {
-                //CS304 Issue link: https://github.com/json-path/JsonPath/issues/806
                 //using FILTER_SLICE_AS_ARRAY mode, details at com/jayway/jsonpath/Option.FILTER_SLICE_AS_ARRAY
                 Iterable<?> objects = ctx.jsonProvider().toIterable(model);
                 Object filteredModel = ctx.jsonProvider().createArray(); // create an array to store the element after filtered

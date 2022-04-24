@@ -76,8 +76,9 @@ public class ArraySliceToken extends ArrayPathToken {
         if (length == 0 || from >= length) {
             return;
         }
+
+        //CS304 Issue link: https://github.com/json-path/JsonPath/issues/806
         if (ctx.configuration().containsOption(Option.FILTER_SLICE_AS_ARRAY)) {
-            //CS304 Issue link: https://github.com/json-path/JsonPath/issues/806
             //using FILTER_SLICE_AS_ARRAY mode, details at com/jayway/jsonpath/Option.FILTER_SLICE_AS_ARRAY
             sliceAsArray(currentPath, model, ctx, from, length);
         } else {
@@ -111,8 +112,8 @@ public class ArraySliceToken extends ArrayPathToken {
 
         logger.debug("Slice between indexes on array with length: {}. From index: {} to: {}. Input: {}", length, from, to, toString());
 
+        //CS304 Issue link: https://github.com/json-path/JsonPath/issues/806
         if (ctx.configuration().containsOption(Option.FILTER_SLICE_AS_ARRAY)) {
-            //CS304 Issue link: https://github.com/json-path/JsonPath/issues/806
             //using FILTER_SLICE_AS_ARRAY mode, details at com/jayway/jsonpath/Option.FILTER_SLICE_AS_ARRAY
             sliceAsArray(currentPath, model, ctx, from, to);
         } else {
@@ -147,8 +148,8 @@ public class ArraySliceToken extends ArrayPathToken {
 
         logger.debug("Slice to index on array with length: {}. From index: 0 to: {}. Input: {}", length, to, toString());
 
+        //CS304 Issue link: https://github.com/json-path/JsonPath/issues/806
         if (ctx.configuration().containsOption(Option.FILTER_SLICE_AS_ARRAY)) {
-            //CS304 Issue link: https://github.com/json-path/JsonPath/issues/806
             //using FILTER_SLICE_AS_ARRAY mode, details at com/jayway/jsonpath/Option.FILTER_SLICE_AS_ARRAY
             sliceAsArray(currentPath, model, ctx, 0, to);
         } else {
