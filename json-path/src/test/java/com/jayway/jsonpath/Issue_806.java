@@ -3,6 +3,10 @@ package com.jayway.jsonpath;
 
 import org.junit.Test;
 
+/**
+ * test for issue_806
+ */
+//CS304 (manually written) Issue link: https://github.com/json-path/JsonPath/issues/806
 public class Issue_806 {
 
     public static final Configuration conf = Configuration.builder().options(Option.FILTER_SLICE_AS_ARRAY).build();

@@ -76,6 +76,7 @@ public class PredicatePathToken extends PathToken {
                 }
             }
             else{
+                //CS304 Issue link: https://github.com/json-path/JsonPath/issues/806
                 //using FILTER_SLICE_AS_ARRAY mode, details at com/jayway/jsonpath/Option.FILTER_SLICE_AS_ARRAY
                 Iterable<?> objects = ctx.jsonProvider().toIterable(model);
                 Object filteredModel = ctx.jsonProvider().createArray(); // create an array to store the element after filtered

@@ -77,6 +77,7 @@ public class ArraySliceToken extends ArrayPathToken {
             return;
         }
         if(ctx.configuration().containsOption(Option.FILTER_SLICE_AS_ARRAY)){
+            //CS304 Issue link: https://github.com/json-path/JsonPath/issues/806
             //using FILTER_SLICE_AS_ARRAY mode, details at com/jayway/jsonpath/Option.FILTER_SLICE_AS_ARRAY
             sliceAsArray(currentPath, parent, model, ctx, from, length);
         }
@@ -112,6 +113,7 @@ public class ArraySliceToken extends ArrayPathToken {
         logger.debug("Slice between indexes on array with length: {}. From index: {} to: {}. Input: {}", length, from, to, toString());
 
         if(ctx.configuration().containsOption(Option.FILTER_SLICE_AS_ARRAY)){
+            //CS304 Issue link: https://github.com/json-path/JsonPath/issues/806
             //using FILTER_SLICE_AS_ARRAY mode, details at com/jayway/jsonpath/Option.FILTER_SLICE_AS_ARRAY
             sliceAsArray(currentPath, parent, model, ctx, from, to);
         }
@@ -148,6 +150,7 @@ public class ArraySliceToken extends ArrayPathToken {
         logger.debug("Slice to index on array with length: {}. From index: 0 to: {}. Input: {}", length, to, toString());
 
         if(ctx.configuration().containsOption(Option.FILTER_SLICE_AS_ARRAY)){
+            //CS304 Issue link: https://github.com/json-path/JsonPath/issues/806
             //using FILTER_SLICE_AS_ARRAY mode, details at com/jayway/jsonpath/Option.FILTER_SLICE_AS_ARRAY
             sliceAsArray(currentPath, parent, model, ctx, 0, to);
         }
@@ -172,6 +175,7 @@ public class ArraySliceToken extends ArrayPathToken {
      * @param from index from
      * @param to index to
      */
+    //CS304 Issue link: https://github.com/json-path/JsonPath/issues/806
     private void sliceAsArray(String currentPath, PathRef parent, Object model, EvaluationContextImpl ctx, int from, int to) {
         Object array = ctx.jsonProvider().createArray(); // create an array to store the element after filtered
         for(int i = from; i < to; i++){
