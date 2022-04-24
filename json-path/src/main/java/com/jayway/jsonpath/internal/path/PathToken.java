@@ -161,16 +161,15 @@ public abstract class PathToken {
      * @param ctx evaluation context in the evaluation
      */
     //CS304 Issue link: https://github.com/json-path/JsonPath/issues/806
-    protected void handleWholeArray(String currentPath, Object model, EvaluationContextImpl ctx){
+    protected void handleWholeArray(String currentPath, Object model, EvaluationContextImpl ctx) {
         // using FILTER_SLICE_AS_ARRAY mode, details at com/jayway/jsonpath/Option.FILTER_SLICE_AS_ARRAY
         // NOTICE: When using this mode, the path of the result will be incorrect. Besides, SET operation will don't work.
-        if(isLeaf()){
+        if (isLeaf()) {
             Iterable<?> it = ctx.jsonProvider().toIterable(model);
-            for(Object object : it){
+            for (Object object : it) {
                 ctx.addResult(currentPath, PathRef.NO_OP, object);  // Use PathRef.NO_OP because the SET operation is banned.
             }
-        }
-        else{
+        } else {
             next().evaluate(currentPath, PathRef.NO_OP, model, ctx); //evaluate
         }
     }
