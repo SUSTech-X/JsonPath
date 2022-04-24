@@ -63,8 +63,8 @@ public class PredicatePathToken extends PathToken {
                     next().evaluate(currentPath, op, model, ctx);
                 }
             }
-        } else if (ctx.jsonProvider().isArray(model)){
-            if(!ctx.configuration().containsOption(Option.FILTER_SLICE_AS_ARRAY)) {
+        } else if (ctx.jsonProvider().isArray(model)) {
+            if (!ctx.configuration().containsOption(Option.FILTER_SLICE_AS_ARRAY)) {
                 int idx = 0;
                 Iterable<?> objects = ctx.jsonProvider().toIterable(model);
 
@@ -74,14 +74,14 @@ public class PredicatePathToken extends PathToken {
                     }
                     idx++;
                 }
-            }
-            else{
+            } else {
+                //CS304 Issue link: https://github.com/json-path/JsonPath/issues/806
                 //using FILTER_SLICE_AS_ARRAY mode, details at com/jayway/jsonpath/Option.FILTER_SLICE_AS_ARRAY
                 Iterable<?> objects = ctx.jsonProvider().toIterable(model);
                 Object filteredModel = ctx.jsonProvider().createArray(); // create an array to store the element after filtered
-                for(Object idxModel : objects){
-                    if(accept(idxModel, ctx.rootDocument(), ctx.configuration(), ctx)){
-                        ((List)filteredModel).add(idxModel);
+                for (Object idxModel : objects) {
+                    if (accept(idxModel, ctx.rootDocument(), ctx.configuration(), ctx)) {
+                        ((List) filteredModel).add(idxModel);
                     }
                 }
                 handleWholeArray(currentPath, filteredModel, ctx); // handle the whole array

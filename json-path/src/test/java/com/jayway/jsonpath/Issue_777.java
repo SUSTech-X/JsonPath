@@ -2,6 +2,12 @@ package com.jayway.jsonpath;
 
 import org.junit.Test;
 
+import static org.junit.Assert.*;
+
+/**
+ * Test for Issue 777
+ */
+//CS304 (manually written) Issue link: https://github.com/json-path/JsonPath/issues/777
 public class Issue_777 {
     public static final Configuration jsonConf = Configuration.defaultConfiguration();
 
@@ -49,7 +55,7 @@ public class Issue_777 {
         DocumentContext dc = JsonPath.using(jsonConf).parse(json);
         // try to read the jsonpath and get the result
         String result = dc.read("$.store.book[?(@.price == $.max($.store.book[*].price))].author").toString();
-        System.out.println(result);
+        assertEquals("[\"J. R. R. Tolkien\"]", result);
     }
 
     @Test
@@ -60,6 +66,6 @@ public class Issue_777 {
         DocumentContext dc = JsonPath.using(jsonConf).parse(json);
         // try to read the jsonpath and get the result
         String result = dc.read("$.list[?(@.val == $.max($.list[*].val))].name").toString();
-        System.out.println(result);
+        assertEquals("[\"val=3\"]", result);
     }
 }
