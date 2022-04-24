@@ -1,7 +1,6 @@
 package com.jayway.jsonassert.impl;
 
 
-import com.jayway.jsonassert.JsonAssert;
 import com.jayway.jsonassert.JsonAsserter;
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.JsonPath;
@@ -69,28 +68,32 @@ public class JsonAsserterImpl implements JsonAsserter {
     /**
      * {@inheritDoc}
      */
-    public JsonAsserter assertNotDefined(String path) {
+    @Override
+    public JsonAsserter assertNotDefined(final String path) {
         try {
-            // create a configuration and add Option.REQUIRE_PROPERTIES. Because the default behaviour without
-            // this option will always not throw PathNotFoundException
             // CS304 Issue link: https://github.com/json-path/JsonPath/issues/744
-            Configuration c = Configuration.defaultConfiguration().addOptions(Option.REQUIRE_PROPERTIES);
+            // create a configuration and add Option.REQUIRE_PROPERTIES.
+            // Because the default behaviour without this option will
+            // always not throw PathNotFoundException
+            Configuration configuration = Configuration.defaultConfiguration();
+            configuration = configuration.addOptions(Option.REQUIRE_PROPERTIES); //NOPMD - suppressed LawOfDemeter
             // if path is defined in jsonObject, read() will throw PathNotFoundException
-            JsonPath.using(c).parse(jsonObject).read(path);
+            JsonPath.using(configuration).parse(jsonObject).read(path); //NOPMD - suppressed LawOfDemeter
             throw new AssertionError(format("Document contains the path <%s> but was expected not to.", path));
-        } catch (PathNotFoundException e) {
+        } catch (PathNotFoundException e) { //NOPMD - suppressed EmptyCatchBlock
         }
         return this;
     }
 
     @Override
-    public JsonAsserter assertNotDefined(String path, String message) {
+    public JsonAsserter assertNotDefined(final String path, final String message) {
         try {
             // CS304 Issue link: https://github.com/json-path/JsonPath/issues/744
-            Configuration c = Configuration.defaultConfiguration().addOptions(Option.REQUIRE_PROPERTIES);
-            JsonPath.using(c).parse(jsonObject).read(path);
+            Configuration configuration = Configuration.defaultConfiguration();
+            configuration = configuration.addOptions(Option.REQUIRE_PROPERTIES); //NOPMD - suppressed LawOfDemeter
+            JsonPath.using(configuration).parse(jsonObject).read(path); //NOPMD - suppressed LawOfDemeter
             throw new AssertionError(format("Document contains the path <%s> but was expected not to.", path));
-        } catch (PathNotFoundException e) {
+        } catch (PathNotFoundException e) { //NOPMD - suppressed EmptyCatchBlock
         }
         return this;
     }
