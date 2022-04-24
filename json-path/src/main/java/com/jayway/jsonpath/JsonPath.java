@@ -330,6 +330,7 @@ public class JsonPath {
     //CS304 Issue link: https://github.com/json-path/JsonPath/issues/784
     public <T> T put(Object jsonObject, String key, Object value, Configuration configuration) {
         notNull(jsonObject, "json can not be null");
+        //judge not null, but can be empty
         notNull(key, "key can not be null or empty");
         notNull(configuration, "configuration can not be null");
         EvaluationContext evaluationContext = path.evaluate(jsonObject, jsonObject, configuration, true);
@@ -358,7 +359,7 @@ public class JsonPath {
      */
     public <T> T renameKey(Object jsonObject, String oldKeyName, String newKeyName, Configuration configuration) {
         notNull(jsonObject, "json can not be null");
-        //jude not null, but can be empty
+        //judge not null, but can be empty
         notNull(newKeyName, "newKeyName can not be null");
         notNull(configuration, "configuration can not be null");
         EvaluationContext evaluationContext = path.evaluate(jsonObject, jsonObject, configuration, true);
