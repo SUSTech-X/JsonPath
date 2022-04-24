@@ -1,3 +1,5 @@
+// CS304 (manually written)
+// Issue link: https://github.com/json-path/JsonPath/issues/744
 package com.jayway.jsonassert;
 
 import org.junit.Test;
@@ -7,8 +9,6 @@ import static com.jayway.jsonassert.JsonAssert.with;
 /**
  * Test for issue 744
  */
-// CS304 (manually written)
-// Issue link: https://github.com/json-path/JsonPath/issues/744
 public class Issue_744 { //NOPMD - suppressed AtLeastOneConstructor
     @Test
     /**
