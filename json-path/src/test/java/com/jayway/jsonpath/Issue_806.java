@@ -1,3 +1,4 @@
+//CS304 (manually written) Issue link: https://github.com/json-path/JsonPath/issues/806
 package com.jayway.jsonpath;
 
 
@@ -7,7 +8,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * test for issue_806
  */
-//CS304 (manually written) Issue link: https://github.com/json-path/JsonPath/issues/806 //NOPMD - suppressed CommentSize
+ //NOPMD - suppressed CommentSize
 // - TODO explain reason for suppression
 @SuppressWarnings("checkstyle:RegexpSingleline")
 public class Issue_806 { //NOPMD - suppressed AtLeastOneConstructor - TODO explain reason for suppression
