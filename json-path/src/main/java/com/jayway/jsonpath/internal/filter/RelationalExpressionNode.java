@@ -21,6 +21,7 @@ public class RelationalExpressionNode extends ExpressionNode {
      * @param relationalOperator the relationalOperator, for example "=="
      * @param right the right node
      */
+    //CS304 Issue link: https://github.com/json-path/JsonPath/issues/771
     public RelationalExpressionNode(ValueNode left, RelationalOperator relationalOperator, ValueNode right) {
         try{
             // if need change left and right, change them
@@ -75,6 +76,7 @@ public class RelationalExpressionNode extends ExpressionNode {
      * @param right the right node
      * @return whether the right node need to be swapped to left
      */
+    //CS304 Issue link: https://github.com/json-path/JsonPath/issues/771
     boolean needSwap(ValueNode right){
         return right.toString().charAt(0)=='@';
     }
@@ -84,6 +86,7 @@ public class RelationalExpressionNode extends ExpressionNode {
      * @return the inverse operator
      * @throws Exception the operator can't be inversed
      */
+    //CS304 Issue link: https://github.com/json-path/JsonPath/issues/771
     RelationalOperator reverseRelationOperator(RelationalOperator operator) throws Exception{
         switch (operator){
             case EQ:

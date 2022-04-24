@@ -6,6 +6,7 @@ import org.junit.Test;
 /**
  * test for issue 771
  */
+//CS304 (manually written) Issue link: https://github.com/json-path/JsonPath/issues/771
 public class Issue_771 {
     @Test
     public void testReverseExpression1(){
